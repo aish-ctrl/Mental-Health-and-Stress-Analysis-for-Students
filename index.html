@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>AI Student Stress Analyzer</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+  <div class="page-bg">
+    <div class="topbar">
+      <div class="brand">
+        <div class="logo">🧠</div>
+        <div>
+          <h1>Student Stress Analyzer</h1>
+          <p class="muted">AI · RandomForest · KMeans · Visual insights</p>
+        </div>
+      </div>
+      <div class="controls">
+        <button id="resetBtn" class="ghost">Reset</button>
+      </div>
+    </div>
+
+    <main class="layout">
+      <!-- FORM (left) -->
+      <section class="card panel form-panel">
+        <h2>Enter your daily details</h2>
+        <p class="muted">Provide the seven inputs — predictions appear instantly</p>
+
+        <form id="stressForm" class="form-grid" autocomplete="off">
+          <label>
+            <span>Sleep hours</span>
+            <input name="sleep" type="number" step="0.1" min="0" max="24" required />
+          </label>
+
+          <label>
+            <span>Study hours</span>
+            <input name="study" type="number" step="0.1" min="0" max="24" required />
+          </label>
+
+          <label>
+            <span>Exercise days/week</span>
+            <input name="exercise" type="number" step="0.1" min="0" max="7" required />
+          </label>
+
+          <label>
+            <span>Anxiety (0-10)</span>
+            <input name="anxiety" type="number" step="0.1" min="0" max="10" required />
+          </label>
+
+          <label>
+            <span>Depression (0-10)</span>
+            <input name="depression" type="number" step="0.1" min="0" max="10" required />
+          </label>
+
+          <label>
+            <span>Focus (0-10)</span>
+            <input name="focus" type="number" step="0.1" min="0" max="10" required />
+          </label>
+
+          <label>
+            <span>Diet (0-10)</span>
+            <input name="diet" type="number" step="0.1" min="0" max="10" required />
+          </label>
+
+          <div class="form-actions">
+            <button id="submitBtn" class="btn primary">Analyze</button>
+            <button id="demoBtn" type="button" class="btn secondary">Fill Example</button>
+          </div>
+        </form>
+
+        <div class="hint muted">
+          Tip: Use realistic values for better results. This demo uses a synthetic dataset.
+        </div>
+      </section>
+
+      <!-- RESULT (right) -->
+      <aside class="card panel result-panel" id="resultPanel" aria-live="polite">
+        <div class="result-head">
+          <h2>Results</h2>
+          <div id="loader" class="loader hidden" aria-hidden="true"></div>
+        </div>
+
+        <div id="resultContent" class="result-content hidden">
+          <div class="summary">
+            <div class="pill">Model accuracy: <strong id="modelAccuracy">N/A</strong></div>
+            <div class="pill">Cluster: <strong id="clusterGroup">—</strong></div>
+          </div>
+
+          <div class="prediction">
+            <h3>Predicted Stress</h3>
+            <div id="stressLabel" class="stress-badge">—</div>
+            <p id="advice" class="muted"></p>
+          </div>
+
+          <hr />
+
+          <h4>Visualizations</h4>
+          <div class="graphs">
+            <figure class="graph-card">
+              <figcaption>Confusion Matrix</figcaption>
+              <img id="imgConf" class="graph-img" src="/graph/confusion_matrix.png" alt="Confusion matrix" />
+            </figure>
+
+            <figure class="graph-card">
+              <figcaption>Feature Importance</figcaption>
+              <img id="imgFeat" class="graph-img" src="/graph/feature_importance.png" alt="Feature importance" />
+            </figure>
+
+            <figure class="graph-card">
+              <figcaption>KMeans Clusters (PCA)</figcaption>
+              <img id="imgKM" class="graph-img" src="/graph/kmeans_clusters.png" alt="KMeans clusters" />
+            </figure>
+          </div>
+        </div>
+
+        <div class="result-empty" id="resultEmpty">
+          <p class="muted">No results yet — fill the form and press <strong>Analyze</strong></p>
+        </div>
+      </aside>
+    </main>
+
+    <footer class="footer">
+      <small>Developed by Aishwarya B C — AI Student Stress Analyzer</small>
+    </footer>
+  </div>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
